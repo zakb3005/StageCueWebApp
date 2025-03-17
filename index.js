@@ -54,12 +54,10 @@ app.use(cors({
 }));
 
 app.use(session({
-    secret: process.env.SESSION_SECRET || "fallback-secret-key",
+    secret: "08123515kj1SWQOWUZM@!#^@086136wjts^@!3awoetu32*^%$05815()fjsfa38",
     saveUninitialized: false,
     resave: false,
-    cookie: { 
-        secure: process.env.NODE_ENV === "production"
-    }
+    cookie: { secure: true }
 }));
 
 function authorizeUser(req, res, next) {
