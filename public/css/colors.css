@@ -1,0 +1,14 @@
+:root {
+  --redprimary: #9f2b2b;
+  --redsecondary: #2f0707;
+  --redtertiary: #6c1717;
+  --background: linear-gradient(
+    180deg,
+    rgb(59, 60, 66) 0%,
+    rgb(40, 40, 49) 100%
+  );
+  --background-gray: #3a3744;
+  --dark: #18181a;
+  --white: #ededed;
+  --gray: #a2a2a2;
+}

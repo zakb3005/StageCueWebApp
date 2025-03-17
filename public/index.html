@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/style.css">
+        <title>StageCue</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Yantramanav:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="app">
+            <nav class="navbar">
+                <div class="nav-container">
+                    <div class="nav-left">
+                        <a href="#"><img src="images/StageCueLogo.png" alt="StageCue Logo" class="logo" @click="gotoPage('Home')"/></a>
+                        <a href="#" class="nav-link" @click="gotoPage('Stories')">Stories</a>
+                        <a href="#" class="nav-link" @click="gotoPage('About')">About</a>
+                        <a href="#" class="nav-link" @click="gotoPage('Download')">Download</a>
+                    </div>
+            
+                    <div class="nav-right">
+                        <div v-if="!user">
+                            <a href="#" class="nav-link nav-btn" @click="gotoPage('Login')">Log In</a>
+                            <a href="#" class="nav-link red-btn" @click="gotoPage('Signup')">Sign Up</a>
+                        </div>
+                        <div v-else>
+                            <a href="#" class="nav-link nav-btn" @click="logout">Log Out</a>
+                            <a href="#" class="nav-link red-btn" @click="visitProfile(user)">My Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div v-if="page === 'Home'" id="HomePage">
+                <section class="home-section">
+                    <div class="home-container">
+                        <img src="images/CurtainLeft.png" alt="Left Curtain" class="curtain curtain-left"/>
+
+                        <div class="home-content">
+                            <h1 class="home-heading">BRING YOUR IDEAS<br> CENTER STAGE</h1>
+                            <a href="#" class="red-btn get-started-btn" @click="gotoPage('Download')">GET STARTED</a>
+                        </div>
+
+                        <img src="images/Placeholder.jpg" alt="Feature Image" class="home-placeholder"/>
+
+                        <img src="images/CurtainRight.png" alt="Right Curtain" class="curtain curtain-right"/>
+                    </div>
+                </section>
+
+                <section class="carousel-section">
+                    <h2 class="story-heading">TOP RATED STORIES</h2>
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn story-carousel-btn" @click="prevCarousel">
+                            <img src="images/ArrowLeft.png" alt="Left Arrow" class="arrow-icon">
+                        </button>
+
+                        <div class="carousel">
+                            <div v-for="(story, index) in carouselStories" :key="story._id + '-' + index" class="carousel-item">
+                                <img :src="story.thumbnailUrl || 'images/Placeholder.jpg'" :alt="story.title" class="story-thumbnail" :class="{ 'big-story-thumbnail': index === 1 }" @click="index === 1 ? viewStoryDetails(story) : null">
+                            </div>
+                        </div>                        
+                    
+                        <button class="carousel-btn right-btn story-carousel-btn" @click="nextCarousel">
+                            <img src="images/ArrowRight.png" alt="Right Arrow" class="arrow-icon">
+                        </button>
+                    </div>              
+                
+                    <div class="more-stories">
+                        <p>BROWSE EVEN MORE GREAT STORIES FROM OUR USERS</p>
+                        <a href="#" class="red-btn browse-all-btn" @click="gotoPage('Stories')">BROWSE ALL</a>
+                    </div>
+                </section>
+
+                <section class="info-section">
+                    <div class="info-container">
+                        <img src="images/StageCueLogoInverted.png" alt="Feature Image" class="info-img"/>
+                
+                        <div class="info-content">
+                            <p class="info-text">
+                                StageCue is a free application/platform for creating and sharing collaborative stories
+                                with your friends and others. Simple, intuitive tools help bring your ideas center stage
+                                with up to 4 others. Supports online/local play.
+                            </p>
+                            <a href="#" class="red-btn learn-more-btn" @click="gotoPage('About')">LEARN MORE</a>
+                        </div>
+                    </div>
+                </section> 
+            </div>
+
+            <div v-if="page === 'Stories'" id="StoriesPage">
+                <section class="carousel-section story-carousel">
+                    <h2 class="story-heading">TOP RATED STORIES</h2>
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn story-carousel-btn" @click="prevCarousel">
+                            <img src="images/ArrowLeft.png" alt="Left Arrow" class="arrow-icon">
+                        </button>
+
+                        <div class="carousel">
+                            <div v-for="(story, index) in carouselStories" :key="story._id + '-' + index" class="carousel-item">
+                                <img :src="story.thumbnailUrl || 'images/Placeholder.jpg'" :alt="story.title" class="story-thumbnail" :class="{ 'big-story-thumbnail': index === 1 }" @click="index === 1 ? viewStoryDetails(story) : null">
+                            </div>
+                        </div> 
+                    
+                        <button class="carousel-btn right-btn story-carousel-btn" @click="nextCarousel">
+                            <img src="images/ArrowRight.png" alt="Right Arrow" class="arrow-icon">
+                        </button>
+                    </div>
+                </section>
+
+                <section class="stories-section">
+                    <div class="stories-header">
+                        <h2 class="stories-heading">BROWSE ALL</h2>
+                        <div class="search-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#18181a">
+                                <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+                            </svg>
+                            <input type="text" id="search-bar-2" v-model="searchQuery" placeholder="Search">
+                        </div>
+                    </div>
+                
+                    <div class="stories-grid">
+                        <div v-for="story in filteredStories" 
+                             :key="story._id" 
+                             class="story-card" 
+                             @click="viewStoryDetails(story)">
+                            <p class="story-info story-title">{{ story.title }}</p>
+                            <img :src="story.thumbnailUrl || 'images/Placeholder.jpg'" alt="Story Thumbnail" class="story-grid-thumbnail"/>
+                            <div class="story-info">
+                                <p class="story-counter">Views<br>{{ numberWithCommas(story.viewCount) }}</p>
+                                <p class="story-counter">Rating<br>{{ story.averageRating }}/10</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>                
+            </div>
+
+            <div v-if="page === 'About'" id="AboutPage">
+                <section class="section-header top-header">
+                    <h1>ABOUT</h1>
+                </section>
+
+                <section class="text-section">
+                    <div class="content-container">
+                        <img src="images/Placeholder.jpg" alt="Placeholder Image" class="content-img"/>
+                        <div class="content-text">
+                            <h2>WHAT IS STAGECUE?</h2>
+                            <p>StageCue is a free application/platform for creating and sharing collaborative stories with your friends and others. Simple, intuitive tools help bring your ideas center stage with up to 4 others either online or locally.</p>
+                        </div>
+                    </div>
+                    
+                    <h2>HOW IT WORKS</h2>
+                    <p>One user, the server host, will act as the story’s <b>Director</b>. The Director role has access to a list of Objects, Stages, and Scenes.</p>
+                    
+                    <div class="content-container">
+                        <div class="content-text">
+                            <h2>OBJECTS</h2>
+                            <p>Objects represent props, characters, other items that can be inserted into the scene. These objects can be freely moved around, mirrored, and deleted by the director. The size of an object is determined by the image's dimensions, roughly conforming to 16 bit pixel art.</p>
+                        </div>
+                        <img src="images/Placeholder.jpg" alt="Placeholder Image" class="content-img"/>
+                    </div>
+
+                    <div class="content-container">
+                        <img src="images/Placeholder.jpg" alt="Placeholder Image" class="content-img"/>
+                        <div class="content-text">
+                            <h2>STAGES</h2>
+                            <p>Stages are background images that can be swapped out by the director to represent different settings and locations for the scene to take place in.</p>
+                        </div>
+                    </div>
+
+                    <div class="content-container">
+                        <div class="content-text">
+                            <h2>SCENES</h2>
+                            <p>Scenes are combinations of objects and stages. A scene will load in a group of objects and their positions all at once. It also loads in the background image from its stage. This makes it easy to instantly swap between different scenes with various props, characters, and backgrounds without needing to place everything by hand.</p>
+                        </div>
+                        <img src="images/Placeholder.jpg" alt="Placeholder Image" class="content-img"/>
+                    </div>
+
+                    <h2>THE ROLE OF THE OTHER PLAYERS</h2>
+                    <p>The rest of the participating users in a story are known as <b>Actors</b>. The Director role can assign any object in the scene to one of the Actors for them to take control of as a ‘player character’.</p>
+                
+                    <div class="content-container">
+                        <img src="images/Placeholder.jpg" alt="Placeholder Image" class="content-img"/>
+                        <div class="content-text">
+                            <p>Actors can freely move their assigned object/character, they can create speech bubbles to make their character talk, and they have the unique ability to write out an ‘action’ as a verb or short description of how they want to interact with the scene.</p>
+                        </div>
+                    </div>
+
+                    <h2>HOW THE DIRECTOR AND ACTORS INTERACT</h2>
+                    <p>The Director and the Actors take turns doing whatever they want on their turn. The actors can make their character interact with other objects or characters in the scene through dialog or through specific actions. The director’s job is to then update the scene according to what the actor has done, whether that’s by moving an object, swapping an object out, making an non-player character speak back to the actor, or whatever else the director wants to do to contribute to the story themselves.</p>
+                    <p>This back and forth between the director and actors is similar to the interaction between a DM (Dungeon Master) and the players of a Tabletop RPG such as D&D (Dungeons & Dragons). The director controls the world around the actors, and the actors interact with that world using their controlled characters.</p>
+                    <p>Through this collaboration, StageCue users are able to create any story they can imagine together.</p>
+                
+                    <h2>CREATING NEW OBJECTS, STAGES, AND SCENES</h2>
+                    <div class="content-container">
+                        <div class="content-text">
+                            <h2>Assets Folder</h2>
+                            <p>When launching the StageCue application for the first time, a group of folders and assets will be automatically created in your computer’s Documents folder under the named, 'StageCue'. Any desired subfolders can be created within these 3 main folders to keep things organized.</p>
+                        </div>
+                        <img src="images/Placeholder.jpg" alt="Placeholder Image" class="content-img"/>
+                    </div>
+                    
+                    <p>To create Objects and Stages, simply drag any .png files into the folders of their corresponding type. That’s it, it’s all ready to go!</p>
+                    <p>To create a new <b>Scene</b>, you must do so in-session as the director. By clicking the 'Save Scene' button while inside of the 'Scenes' folder in the editor’s browser, you can save the current state of the scene as a .json file, which can then be reinserted whenever you want.</p>
+                    <p>Creating a new story in StageCue is best when it’s spontaneous and improvised, so it’s recommended to treat scenes as a way to set up an interesting scenario for the actors to expand upon naturally!</p>
+                </section>
+
+                <section class="cta-section">
+                    <h2>GET STARTED TODAY FOR FREE</h2>
+                    <a href="#" class="red-btn cta-btn" @click="gotoPage('Download')">DOWNLOAD</a>
+                </section>
+            </div>
+
+            <div v-if="page === 'Download'" id="DownloadPage">
+                <section class="section-header top-header">
+                    <h1>DOWNLOAD</h1>
+                </section>
+                
+                <section class="download-text-section">
+                    <p>Download link & instructions coming soon.</p>
+                </section>
+
+                <section class="download-section">
+                    <p>Version 1</p>
+                    <p>Date Released</p>
+                    <a class="dark-red-btn download-link-btn">DOWNLOAD</a>
+                </section>
+
+                <section class="download-text-section">
+                    <p>Collaborate with others to create any story you can imagine, complete with props, characters, backgrounds, dialog, and more. Read about how it all works and more on the about page.</p>
+                    <a href="#" class="red-btn learn-more-btn2" @click="gotoPage('About')">LEARN MORE</a>
+                </section>
+            </div>
+
+            <div v-if="page === 'Signup'" id="SignupPage">
+                <section class="section-header top-header">
+                    <h1>Sign Up</h1>
+                </section>
+
+                <section class="errors-section">
+                    <transition-group name="fade">
+                        <div v-if="authErrors.length" class="error-messages">
+                            <ul>
+                                <li v-for="error in authErrors" :key="error">{{ error }}</li>
+                            </ul>
+                        </div>
+                    </transition-group>
+                </section>
+
+                <section class="signup-section">
+                    <form class="signup-form" @submit.prevent="signUp">
+                        <div class="form-group">
+                            <label for="email">EMAIL</label>
+                            <input type="email" id="emailSignup" name="email" v-model="emailEntry" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="username">USERNAME</label>
+                            <input type="text" id="usernameSignup" name="username" v-model="usernameEntry" required>
+                        </div>
+                
+                        <div class="form-group">
+                            <label for="password">PASSWORD</label>
+                            <input type="password" id="passwordSignup" name="password" v-model="passwordEntry" required>
+                        </div>
+                
+                        <button type="submit" class="red-btn signup-btn">SIGN UP</button>
+                    </form>
+                </section>                
+            </div>
+
+            <div v-if="page === 'Login'" id="LoginPage">
+                <section class="section-header top-header">
+                    <h1>Log In</h1>
+                </section>
+
+                <section class="errors-section">
+                    <transition-group name="fade">
+                        <div v-if="authErrors.length" class="error-messages">
+                            <ul>
+                                <li v-for="error in authErrors" :key="error">{{ error }}</li>
+                            </ul>
+                        </div>
+                    </transition-group>
+                </section>
+
+                <section class="login-section">
+                    <form class="login-form" @submit.prevent="login">
+                        <div class="form-group">
+                            <label for="email">EMAIL</label>
+                            <input type="text" id="emailLogin" name="email" v-model="emailEntry" required>
+                        </div>
+                
+                        <div class="form-group">
+                            <label for="password">PASSWORD</label>
+                            <input type="password" id="passwordLogin" name="password" v-model="passwordEntry" required>
+                        </div>
+                
+                        <button type="submit" class="red-btn login-btn">LOG IN</button>
+                    </form>
+                </section>                                                
+            </div>
+
+            <div v-if="page === 'Profile'" id="ProfilePage">
+                <section class="section-header top-header">
+                    <h1>{{ visitingUser.username }}'s Profile</h1>
+                </section>
+
+                <section class="profile-section">
+                    <div class="profile-container">
+                        <label for="fileInput" class="profile-pic-wrapper">
+                            <img class="profile-pic" :src="user.profilePicUrl || 'images/Placeholder.jpg'" alt="Profile Picture">
+                        </label>
+                        <input type="file" id="fileInput" class="no-display" @change="uploadProfilePic">                        
+    
+                        <div class="profile-info">
+                            <p class="profile-username">{{ visitingUser.username }}</p>
+                            <div class="profile-bio-container">
+                                <textarea class="profile-bio" :class="{ 'editing-text': editingProfile }" placeholder="No Bio" :readonly="!editingProfile" v-model="visitingUser.bio" @blur="updateUserBio()" maxlength="300">{{ visitingUser.bio }}</textarea>
+                            </div>
+                        </div>
+                
+                        <button v-if="visitingOwnProfile()" class="edit-btn" @click="toggleEditProfile">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#e3e3e3"><path d="M186.67-186.67H235L680-631l-48.33-48.33-445 444.33v48.33ZM120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm652.67-606-46-46 46 46Zm-117 71-24-24.33L680-631l-24.33-24Z"/></svg>
+                        </button>
+                    </div>
+                </section>
+                
+                <section class="profile-stories">
+                    <div class="profile-stories-bg">
+                        <div class="stories-header">
+                            <h2 class="stories-heading">{{ visitingUser.username }}'S STORIES</h2>
+                            <div class="stories-controls">
+                                <a v-if="visitingOwnProfile()" href="#" class="red-btn upload-story-btn" @click.prevent="createEmptyStory">Upload New</a>
+                                <div class="search-container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#18181a">
+                                        <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+                                    </svg>
+                                    <input type="text" id="search-bar" v-model="searchQuery" placeholder="Search">
+                                </div>
+                            </div>
+                        </div>                        
+                    
+                        <div class="stories-grid">
+                            <div v-for="story in filteredUserStories" class="story-card" @click="viewStoryDetails(story)">
+                                <p class="story-info story-title">{{ story.title }}</p>
+                                <img :src="story.thumbnailUrl || 'images/Placeholder.jpg'" alt="Story Thumbnail" class="story-grid-thumbnail"/>
+                                <div class="story-info">
+                                    <p class="story-counter">Views<br>{{ numberWithCommas(story.viewCount) }}</p>
+                                    <p class="story-counter">Rating<br>{{ story.averageRating }}/10</p>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                </section>
+            </div>
+
+            <div v-if="page === 'Edit'" id="EditPage">
+                <section class="section-header top-header">
+                    <h1>EDIT STORY DETAILS</h1>
+                </section>
+
+                <section class="errors-section">
+                    <transition-group name="fade">
+                        <div v-if="authErrors.length" class="error-messages">
+                            <ul>
+                                <li v-for="error in authErrors" :key="error">{{ error }}</li>
+                            </ul>
+                        </div>
+                    </transition-group>
+                </section>
+            
+                <section class="story-edit-section">
+                    <div class="story-edit-container">
+                        <label class="story-thumbnail-label" @click="triggerStoryThumbnailInput">
+                            <img class="story-thumbnail-img" :src="editStory.thumbnailUrl || 'images/Placeholder.jpg'" alt="Story Thumbnail"/>
+                        </label>
+                        <input ref="storyThumbnailInput" type="file" class="no-display" @change="uploadStoryThumbnail"/>
+            
+                        <div class="story-info2">
+                            <div class="story-title-container">
+                                <input type="text" class="story-title-textarea" v-model="editStory.title" placeholder="Story Title"/>
+                            </div>
+                            <div class="story-desc-container">
+                                <textarea class="story-desc" v-model="editStory.description" placeholder="No Description"></textarea>
+                            </div>
+                        </div>
+
+                        <button class="red-btn upload-btn" @click="updateStory">UPDATE</button>
+                        <button class="red-btn delete-btn" @click="deleteStory">{{ confirmingDelete ? 'CLICK AGAIN TO CONFIRM' : 'DELETE STORY' }}</button>
+                    </div>
+                </section>
+            
+                <section class="page-scroll-section">
+                    <div class="page-scroll-container">
+                        <div class="pages-wrapper">
+                            <div class="page-item" v-for="(page, idx) in editStory.pages" :key="idx">
+                                <button class="page-delete-btn" @click="deletePage(page)">X</button>
+                                <label @click="triggerPageFileSelect(idx)">
+                                    <img :src="page.imageUrl || 'images/Placeholder.jpg'" :alt="'Page ' + (idx+1)" />
+                                </label>
+                                
+                                <input ref="pageFileInputs" type="file" style="display: none;" @change="uploadPageImage($event)"/>
+                                
+                                <p>PAGE {{ idx + 1 }}</p>
+                            </div>
+                            
+                            <button class="add-page-btn" @click="addEmptyPage">
+                                <span>+</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>            
+            
+            <div v-if="page === 'StoryDetails'" id="StoryDetailPage">
+                <section class="section-header top-header">
+                    <h1>{{ viewStory.title }}</h1>
+                </section>
+
+                <section class="story-display-section">
+                    <div class="story-display-container">
+                        <div class="story-thumbnail-container">
+                            <img class="story-thumbnail-img" :src="viewStory.thumbnailUrl || 'images/Placeholder.jpg'" alt="Story Thumbnail"/>
+                            <div class="story-meta">
+                                <p class="story-creator">CREATOR: {{ viewStory.creatorUser }}</p>
+                                <p class="story-views">VIEWS: {{ numberWithCommas(viewStory.viewCount) }}</p>
+                                <p class="story-rating">RATING: {{ viewStory.averageRating }}/10</p>
+                                <p class="story-pages">PAGES: {{ viewStory.pages ? viewStory.pages.length : 0 }}</p>
+                            </div>
+                        </div>
+                
+                        <div class="story-content">
+                            <div class="story-description-container">
+                                <textarea class="story-description" readonly placeholder="No Description">{{ viewStory.description }}</textarea>
+                            </div>
+                
+                            <div class="story-buttons">
+                                <button v-if="visitingOwnStory()" class="edit-story-btn" @click="gotoEditStory">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#e3e3e3">
+                                        <path d="M186.67-186.67H235L680-631l-48.33-48.33-445 444.33v48.33ZM120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm652.67-606-46-46 46 46Zm-117 71-24-24.33L680-631l-24.33-24Z"/>
+                                    </svg>
+                                </button>
+
+                                <a href="#" class="red-btn read-btn" @click="gotoPage('Story')">Read</a>
+                            </div>                            
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div v-if="page === 'Story'" id="StoryPage">
+                <section class="section-header top-header">
+                    <h1>{{ viewStory.title }}</h1>
+                </section>
+
+                <section class="page-viewer-section">
+                    <div class="page-viewer-container">
+                        <button v-if="prevPageExists()" class="page-nav-btn left-arrow" @click="pagePrev">
+                            <img src="images/ArrowLeft.png" alt="Previous Page">
+                        </button>
+                
+                        <div class="page-image-container">
+                            <img :src="viewStory.pages[readingIndex].imageUrl ||'images/Placeholder.jpg'" alt="Page Image" class="page-image">
+                            <p class="page-number-text">PAGE {{ readingIndex+1 }}</p>
+                        </div>
+                        
+                        <button v-if="nextPageExists()" class="page-nav-btn right-arrow" @click="pageNext">
+                            <img src="images/ArrowRight.png" alt="Next Page">
+                        </button>
+                    </div>
+                </section> 
+                
+                <section v-if="user" class="rating-section">
+                    <label for="rating-input" class="rating-label">Rating:</label>
+                    <textarea v-model="userRating" id="rating-input" class="rating-textarea" maxlength="2" placeholder="0" @blur="submitRating"></textarea>
+                    <span class="rating-out-of">/10</span>
+                </section>                
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
