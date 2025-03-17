@@ -57,7 +57,7 @@ app.use(session({
     secret: "08123515kj1SWQOWUZM@!#^@086136wjts^@!3awoetu32*^%$05815()fjsfa38",
     saveUninitialized: false,
     resave: false,
-    cookie: { secure: true }
+    cookie: { secure: false }
 }));
 
 function authorizeUser(req, res, next) {
