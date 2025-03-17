@@ -154,7 +154,7 @@ Vue.createApp({
         signUp() {
             this.authErrors = [];
         
-            fetch("s25-midterm-project-zakb3005-production.up.railway.app/users", {
+            fetch("https://s25-midterm-project-zakb3005-production.up.railway.app/users", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -193,7 +193,7 @@ Vue.createApp({
 
         login() {
             this.authErrors = [];
-            fetch("s25-midterm-project-zakb3005-production.up.railway.app/session", {
+            fetch("https://s25-midterm-project-zakb3005-production.up.railway.app/session", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -215,7 +215,7 @@ Vue.createApp({
         },        
 
         checkSession() {
-            fetch("s25-midterm-project-zakb3005-production.up.railway.app/session", { credentials: 'include' })
+            fetch("https://s25-midterm-project-zakb3005-production.up.railway.app/session", { credentials: 'include' })
             .then(response => response.ok ? response.json() : Promise.reject("Unauthorized"))
             .then(user => {
                 console.log("User session found:", user);
@@ -227,7 +227,7 @@ Vue.createApp({
         },        
 
         logout() {
-            fetch("s25-midterm-project-zakb3005-production.up.railway.app/session", {
+            fetch("https://s25-midterm-project-zakb3005-production.up.railway.app/session", {
                 method: "DELETE",
                 credentials: 'include'
             })
@@ -254,7 +254,7 @@ Vue.createApp({
                 return;
             }
         
-            fetch("s25-midterm-project-zakb3005-production.up.railway.app/users/bio", {
+            fetch("https://s25-midterm-project-zakb3005-production.up.railway.app/users/bio", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ bio: this.visitingUser.bio }),
@@ -286,7 +286,7 @@ Vue.createApp({
             const formData = new FormData();
             formData.append("profilePic", file);
         
-            fetch("s25-midterm-project-zakb3005-production.up.railway.app/users/profile-pic", {
+            fetch("https://s25-midterm-project-zakb3005-production.up.railway.app/users/profile-pic", {
                 method: "POST",
                 credentials: "include",
                 body: formData
@@ -306,7 +306,7 @@ Vue.createApp({
                 description: ""
             };
 
-            fetch("s25-midterm-project-zakb3005-production.up.railway.app/stories", {
+            fetch("https://s25-midterm-project-zakb3005-production.up.railway.app/stories", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -351,7 +351,7 @@ Vue.createApp({
                 this.authErrors = [];
             }
             
-            const url = `s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.editStory._id}`;
+            const url = `https://s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.editStory._id}`;
             
             const body = {
                 title: this.editStory.title,
@@ -399,7 +399,7 @@ Vue.createApp({
             const formData = new FormData();
             formData.append("thumbnail", file);
         
-            fetch(`s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.editStory._id}/thumbnail`, {
+            fetch(`https://s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.editStory._id}/thumbnail`, {
                 method: "PUT",
                 credentials: "include",
                 body: formData
@@ -434,7 +434,7 @@ Vue.createApp({
             const formData = new FormData();
             formData.append("pageImage", file);
       
-            fetch(`s25-midterm-project-zakb3005-production.up.railway.app/${this.editStory._id}/pages`, {
+            fetch(`https://s25-midterm-project-zakb3005-production.up.railway.app/${this.editStory._id}/pages`, {
                 method: "POST",
                 credentials: "include",
                 body: formData
@@ -458,7 +458,7 @@ Vue.createApp({
             if (!page.imageUrl) {
                 this.editStory.pages.splice(pageIndex, 1);
             } else {
-                fetch(`s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.editStory._id}/pages`, {
+                fetch(`https://s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.editStory._id}/pages`, {
                     method: "DELETE",
                     headers: { "Content-Type": "application/json" },
                     credentials: "include",
@@ -474,7 +474,7 @@ Vue.createApp({
         },        
 
         fetchStories() {
-            fetch("s25-midterm-project-zakb3005-production.up.railway.app/stories", { credentials: "include" })
+            fetch("https://s25-midterm-project-zakb3005-production.up.railway.app/stories", { credentials: "include" })
             .then(res => res.ok ? res.json() : Promise.reject(res))
             .then(data => {
                 this.stories = data.map(story => ({
@@ -487,7 +487,7 @@ Vue.createApp({
         },
     
         fetchStoryDetails() {
-            fetch(`s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.storyId}`, { credentials: "include" })
+            fetch(`https://s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.storyId}`, { credentials: "include" })
             .then(res => res.ok ? res.json() : Promise.reject(res))
             .then(data => {
                 this.story = data;
@@ -497,7 +497,7 @@ Vue.createApp({
         },
 
         fetchTopStories() {
-            fetch("s25-midterm-project-zakb3005-production.up.railway.app/stories/top", { credentials: "include" })
+            fetch("https://s25-midterm-project-zakb3005-production.up.railway.app/stories/top", { credentials: "include" })
             .then(res => res.ok ? res.json() : Promise.reject(res))
             .then(data => {
                 this.topStories = data.map(story => ({
@@ -524,7 +524,7 @@ Vue.createApp({
                 thisRating = 10;
             }
 
-            fetch(`s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.viewStory._id}/rate`, {
+            fetch(`https://s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.viewStory._id}/rate`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -540,7 +540,7 @@ Vue.createApp({
         fetchUserStories() {
             if (!this.visitingUser) return;
         
-            fetch(`s25-midterm-project-zakb3005-production.up.railway.app/users/${this.visitingUser._id}/stories`, { credentials: "include" })
+            fetch(`https://s25-midterm-project-zakb3005-production.up.railway.app/users/${this.visitingUser._id}/stories`, { credentials: "include" })
             .then(res => res.ok ? res.json() : Promise.reject(res))
             .then(stories => {
                 this.userStories = stories.map(story => ({
@@ -558,7 +558,7 @@ Vue.createApp({
         },
 
         increaseViews() {
-            fetch(`s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.viewStory._id}/viewCount`, {
+            fetch(`https://s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.viewStory._id}/viewCount`, {
                 method: "PUT",
                 credentials: "include"
             })
@@ -585,7 +585,7 @@ Vue.createApp({
             }
             this.confirmingDelete = false;
     
-            fetch(`s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.editStory._id}`, {
+            fetch(`https://s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.editStory._id}`, {
                 method: "DELETE",
                 credentials: "include"
             })

@@ -49,7 +49,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static('public'));
 app.use(cors({
-    origin: 's25-midterm-project-zakb3005-production.up.railway.app',
+    origin: 'https://s25-midterm-project-zakb3005-production.up.railway.app',
     credentials: true
 }));
 
@@ -57,7 +57,7 @@ app.use(session({
     secret: "08123515kj1SWQOWUZM@!#^@086136wjts^@!3awoetu32*^%$05815()fjsfa38",
     saveUninitialized: false,
     resave: false,
-    cookie: { secure: false }
+    cookie: { secure: true }
 }));
 
 function authorizeUser(req, res, next) {
