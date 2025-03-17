@@ -49,7 +49,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static('public'));
 app.use(cors({
-    origin: 'http://localhost:5501',
+    origin: 's25-midterm-project-zakb3005-production.up.railway.app',
     credentials: true
 }));
 
