@@ -53,17 +53,12 @@ app.use(cors({
     credentials: true
 }));
 
-console.log("SESSION_SECRET",process.env.SESSION_SECRET);
-console.log("NODE_ENV:",process.env.NODE_ENV);
-
 app.use(session({
     secret: process.env.SESSION_SECRET || "fallback-secret-key",
     saveUninitialized: false,
     resave: false,
     cookie: { 
-        secure: process.env.NODE_ENV === "production",
-        httpOnly: true,
-        sameSite: "lax"
+        secure: process.env.NODE_ENV === "production"
     }
 }));
 
