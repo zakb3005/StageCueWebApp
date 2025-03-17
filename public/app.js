@@ -294,11 +294,9 @@ Vue.createApp({
             .then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(err)))
             .then(updatedUser => {
                 this.user = updatedUser;
-                alert("Profile picture uploaded successfully!");
             })
             .catch(err => {
                 console.error("Error uploading profile picture:", err);
-                alert("Failed to upload profile picture.");
             });
         },
 
@@ -395,7 +393,6 @@ Vue.createApp({
             if (!file) return;
         
             if (!this.editStory._id) {
-                alert("Please create/save the story first before uploading a thumbnail!");
                 return;
             }
         
@@ -414,7 +411,6 @@ Vue.createApp({
             })
             .catch(err => {
                 console.error("Error uploading thumbnail:", err);
-                alert("Failed to upload story thumbnail.");
             });
         },        
       
@@ -451,7 +447,6 @@ Vue.createApp({
             })
             .catch(err => {
                 console.error("Error adding page:", err);
-                alert("Failed to add page image.");
             });
         },
 
@@ -600,7 +595,6 @@ Vue.createApp({
             })
             .catch(err => {
                 console.error("Error deleting story:", err);
-                alert("Failed to delete story.");
             });
         }
     },
@@ -609,5 +603,3 @@ Vue.createApp({
         this.gotoPage('Home')
     }
 }).mount('#app');
-
-//github.com/djholt/file-upload-s3-demo
