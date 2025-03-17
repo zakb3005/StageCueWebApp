@@ -12,8 +12,8 @@ const User = model.User;
 const s3 = new S3Client({
     region: "us-west-1",
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        accessKeyId: "AKIAR5KQA42J3BAKWJWC",
+        secretAccessKey: "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"
     }
 });
 
@@ -52,6 +52,9 @@ app.use(cors({
     origin: 'https://s25-midterm-project-zakb3005-production.up.railway.app',
     credentials: true
 }));
+
+console.log("SESSION_SECRET",process.env.SESSION_SECRET);
+console.log("NODE_ENV:",process.env.NODE_ENV);
 
 app.use(session({
     secret: process.env.SESSION_SECRET || "fallback-secret-key",
