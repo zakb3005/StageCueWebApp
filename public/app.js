@@ -434,7 +434,7 @@ Vue.createApp({
             const formData = new FormData();
             formData.append("pageImage", file);
       
-            fetch(`https://s25-midterm-project-zakb3005-production.up.railway.app/${this.editStory._id}/pages`, {
+            fetch(`https://s25-midterm-project-zakb3005-production.up.railway.app/stories/${this.editStory._id}/pages`, {
                 method: "POST",
                 credentials: "include",
                 body: formData
