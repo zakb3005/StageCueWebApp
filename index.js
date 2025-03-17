@@ -12,8 +12,8 @@ const User = model.User;
 const s3 = new S3Client({
     region: "us-west-1",
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        accessKeyId: "AKIAR5KQA42J3BAKWJWC",
+        secretAccessKey: "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"
     }
 });
 
@@ -54,14 +54,12 @@ app.use(cors({
 }));
 
 app.use(session({
-    secret: process.env.SESSION_SECRET || "fallback-secret-key",
+    secret: "08123515kj1SWQOWUZM@!#^@086136wjts^@!3awoetu32*^%$05815()fjsfa38",
     saveUninitialized: false,
     resave: false,
-    cookie: { 
-        secure: false,
-        httpOnly: false,
-    }
+    cookie: { secure: true }
 }));
+
 
 function authorizeUser(req, res, next) {
     if (req.session && req.session.userId) {
