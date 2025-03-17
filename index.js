@@ -59,7 +59,8 @@ app.use(session({
     resave: false,
     cookie: { 
         secure: process.env.NODE_ENV === "production",
-        httpOnly: true
+        httpOnly: false,
+        sameSite: "lax"
     }
 }));
 
