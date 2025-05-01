@@ -135,5 +135,13 @@ Delete a specific page from a story.
 
 ---
 
+### Screenshots
+
+![image](https://github.com/user-attachments/assets/289a6e7d-2b46-46ff-a1b1-828f78c46cdb)
+
+![image](https://github.com/user-attachments/assets/63b467d4-42d1-40e9-ab2c-88dcd6e0de4d)
+
+---
+
 **Author**:  
 [**Zak Breitenstein**](https://github.com/zakb3005) – SE4200 Midterm Project  
