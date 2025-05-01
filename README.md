@@ -2,7 +2,11 @@
 
 ## Overview
 
-StageCue is an application for hosting user-created stories from the StageCue client application. This backend provides a complete set of RESTful API endpoints to handle:
+Link: [https://s25-midterm-project-zakb3005-production.up.railway.app](https://s25-midterm-project-zakb3005-production.up.railway.app)  
+
+This project is the web companion to [StageCue](https://github.com/zakb3005/StageCue), designed to host and browse user-submitted interactive collaborative stories. Built using Vue.js, MongoDB, Express and AWS S3, the app allows users to view, upload, and share creative content made in the StageCue desktop application. Users can register for a free account to be able to create and manage their own stories, or vote on other users' creations. Stories are displayed with thumbnails, descriptions, ratings, and metadata such as the author, page count, and view count. The app features responsive design, client-side routing, secure file uploads, and integration with MonoDB and AWS S3 for data storage and persistence.
+
+This backend provides a complete set of RESTful API endpoints to handle:
 
 - User authentication (sign up, login, logout)  
 - User profile management (bio and profile picture)  
